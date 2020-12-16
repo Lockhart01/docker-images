@@ -1,0 +1,38 @@
+FROM ubuntu:18.04
+
+#updating the package repository
+RUN apt-get update && \
+
+#install ssh server
+    apt-get install -qy openssh-server && \
+    mkdir -p /var/run/sshd && \
+
+#install jdk 8
+    apt-get install -qy openjdk-8-jdk && \
+
+#install maven
+    apt-get install -qy maven && \
+
+#cleanup of old packages 
+    apt-get -qy autoremove && \
+
+#adding jenkins user
+    adduser --quiet jenkins && \
+
+#set password 
+     echo "jenkins:jenkins" | chpasswd && \
+
+# creating ssh directory
+     mkdir -p /home/jenkins/.ssh
+
+#copying authorized keys file
+COPY /ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
+
+#assigning proper ownership
+RUN chown -R jenkins:jenkins /home/jenkins/.ssh
+
+#standar ssh port
+Expose 22
+
+#Executing ssh server
+CMD ["/usr/sbin/sshd", "-D"]
