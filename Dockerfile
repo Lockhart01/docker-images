@@ -21,7 +21,7 @@ RUN apt-get update && \
    mkdir -p /home/jenkins/.ssh 
 
 #copying authorized keys to have the public key for ssh connection
-COPY ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
+#COPY ssh/authorized_keys /home/jenkins/.ssh/authorized_keys
 
 #Assigning proper ownership
 
