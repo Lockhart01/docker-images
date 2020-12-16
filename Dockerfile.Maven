@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 #updating the package repository
 RUN apt-get update && \
-
+    apt-get install -qy git && \
 #install ssh server
     apt-get install -qy openssh-server && \
     mkdir -p /var/run/sshd && \
