@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+        jenkins-server:
+                container_name: jenkins-server
+                image: jenkins/jenkins
+                ports:
+                        - "8080:8080"
+                        - "5000:5000"
+                volumes:
+                        - jenkins:/var/jenkins_home
+                        - /var/run/docker.sock:/var/run/docker.sock
+                networks:
+                        net:
+                                ipv4_address: 10.4.0.9
+        
+        bitbucket-server:
+                container_name: bitbucket-server
+                image: atlassian/bitbucket-server
+                ports:
+                        - "7990:7990"
+                        - "7999:7999"
+                environment:
+                        - BITBUCKET_HOME=/var/atlassian/application-data/bitbucket/
+                volumes:
+                        - bitbucket:/var/atlassian/application-data/bitbucket
+                networks:
+                        net:
+                                ipv4_address: 10.4.0.10
+                                
+        postgresdb:
+                container_name: db-server
+                image: postgres
+                restart: always
+                environment:
+                        POSTGRES_USER_FILE: bitbucket
+                        POSTGRES_PASSWORD_FILE: bitpass
+                        POSTGRES_DB: Bitbucket
+                volumes:
+                        - postgres:/var/lib/postgresql/data
+                networks:
+                        net:
+                                ipv4_address: 10.4.0.11
+
+volumes:
+        jenkins:
+        bitbucket:
+        postgres:
+
+networks:
+        net:
+                ipam:
+                        driver: default
+                        config: 
+                                - subnet: 10.4.0.0/16
