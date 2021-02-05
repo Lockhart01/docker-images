@@ -32,8 +32,8 @@ services:
                 image: postgres
                 restart: always
                 environment:
-                        POSTGRES_USER_FILE: bitbucket
-                        POSTGRES_PASSWORD_FILE: bitpass
+                        POSTGRES_USER: bitbucket
+                        POSTGRES_PASSWORD: bitpass
                         POSTGRES_DB: Bitbucket
                 volumes:
                         - postgres:/var/lib/postgresql/data
